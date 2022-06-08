@@ -65,6 +65,10 @@ class Converter
 
   end
 
+  def minf(f : Float64)
+    f.to_s.sub(/\.0$/, "")
+  end
+
   def hex()
     "##{@red.to_s(16).rjust(2, '0')}#{@green.to_s(16).rjust(2, '0')}#{@blue.to_s(16).rjust(2, '0')}"
   end
@@ -78,14 +82,14 @@ class Converter
   end
 
   def rgba()
-    "rgba(#{@red}, #{@green}, #{@blue}, #{@alpha.round(3)})"
+    "rgba(#{@red}, #{@green}, #{@blue}, #{minf(@alpha.round(3))})"
   end
 
   def hsl()
-    "hsl(#{@hue}, #{@saturation}%, #{@luminance}%)"
+    "hsl(#{minf(@hue)}, #{minf(@saturation)}%, #{minf(@luminance)}%)"
   end
 
   def hsla()
-    "hsla(#{@hue}, #{@saturation}%, #{@luminance}%, #{@alpha.round(3)})"
+    "hsla(#{minf(@hue)}, #{minf(@saturation)}%, #{minf(@luminance)}%, #{minf(@alpha.round(3))})"
   end
 end
