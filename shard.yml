@@ -1,0 +1,13 @@
+name: colorconv
+version: 0.1.0
+
+authors:
+  - Joel Kuhn <joelakuhn@gmail.com>
+
+targets:
+  colorconv:
+    main: src/colorconv.cr
+
+crystal: 1.4.1
+
+license: MIT
