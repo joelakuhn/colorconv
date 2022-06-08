@@ -49,5 +49,5 @@ Print the hsl format for a given named color
 
 ```shell
 $ colorconv -h 'aliceblue'
-hsl(208.0, 100.0%, 97.059%)
+hsl(208, 100%, 97.059%)
 ```
