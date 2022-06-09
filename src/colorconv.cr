@@ -2,6 +2,7 @@ require "option_parser"
 require "./converter.cr"
 
 format = :all
+color_blocks = true
 color_strs = [] of String
 
 OptionParser.parse do |parser|
@@ -12,6 +13,7 @@ OptionParser.parse do |parser|
   parser.on("-R", "--rgba", "Format as rgb+alpha") { format = :rgba }
   parser.on("-h", "--hsl", "Format as hsl") { format = :hsl }
   parser.on("-H", "--hsla", "Format as hsl+alpha") { format = :hsla }
+  parser.on("-n", "--no-color", "Do not output color blocks") { color_blocks = false }
   parser.on("--help", "Print usage information") { puts parser; exit }
 
   parser.unknown_args {|positional| color_strs = positional}
@@ -23,10 +25,22 @@ OptionParser.parse do |parser|
   end
 end
 
+def make_bar(conv : Converter, count : Int32)
+  "\033[38;2;#{conv.red};#{conv.green};#{conv.blue}m#{"\u2588" * count}\033[0m"
+end
+
 color_strs.each do |str|
   conv = Converter.new(str)
 
   if conv.is_valid
+    if color_blocks && STDOUT.tty? && ENV["COLORTERM"]? == "truecolor"
+      if format == :all
+        puts make_bar(conv, 80)
+      else
+        print "#{make_bar(conv, 2)} "
+      end
+    end
+
     if format == :hex
       puts conv.hex()
     end
